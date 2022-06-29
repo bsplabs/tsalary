@@ -7,16 +7,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## ระบบ tSalary
+# ระบบ tSalary
 
-tSalary is a web application platform for management salary of employees, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+tSalary is a web application platform for management salary of employees.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- นำเข้าและจัดการข้อมูลพนักงาน
+- นำเข้าเเละจัดการรายการเพิ่มของพนักงานในแต่ละวัน
+- นำเข้าและจัดการรายการหักของพนักงานในแต่ละวัน
+- นำเข้าและจัดการรายการหัก/เพิ่มของแต่ละวันเเละเดือน
+- นำออกรายงานข้อมูล
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This system use Laravel Auth Manually instead Scaffolding.
