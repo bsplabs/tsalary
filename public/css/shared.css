@@ -1,0 +1,9 @@
+@font-face {
+    font-family: BaiJamjuree;
+    src: url('/../fonts/BaiJamjuree.ttf');
+}
+
+html,
+body {
+    font-family: "BaiJamjuree";
+}
