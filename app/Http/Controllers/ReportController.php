@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+header('Content-Type: text/html; charset=utf-8');
+
 class ReportController extends Controller
 {
     public function showExports()
@@ -181,6 +183,7 @@ class ReportController extends Controller
         $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
         $writer = new Xlsx($spreadsheet);
+        header('Content-Encoding: UTF-8');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
@@ -231,6 +234,7 @@ class ReportController extends Controller
         $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
         $writer = new Xlsx($spreadsheet);
+        header('Content-Encoding: UTF-8');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
@@ -281,6 +285,7 @@ class ReportController extends Controller
         $spreadsheet->getActiveSheet()->getRowDimension('1')->setRowHeight(20);
 
         $writer = new Xlsx($spreadsheet);
+        header('Content-Encoding: UTF-8');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');

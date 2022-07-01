@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\WorkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,9 @@ Route::middleware(["auth"])->group(function() {
     Route::post("/employees/all", [EmployeeController::class, "getEmployees"]);
     Route::post("/employees/edit", [EmployeeController::class, "editEmp"]);
 
+    // Work
+    Route::get("/works/", [WorkController::class, "showWorkingTimeLine"]);
+    Route::post("/works/working-timeline", [WorkController::class, "getWorkingTimeLine"]);
 
     // Item
     Route::get("/items", [ItemController::class, "showItemLists"])->name("items");

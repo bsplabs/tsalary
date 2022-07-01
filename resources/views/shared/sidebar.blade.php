@@ -47,6 +47,12 @@
                     </a>
                 </li>
                 <li class="nav-item ">
+                    <a href="/works" class="nav-link {{ $currentPath === 'working-timeline' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-business-time"></i>
+                        <p> เวลาทำงาน</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
                     <a href="/items/increase" class="nav-link {{ $currentPath === 'increase' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-plus-circle"></i>
                         <p> รายการเพิ่ม</p>
