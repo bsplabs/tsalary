@@ -66,10 +66,6 @@ class ReportController extends Controller
             ->groupBy("employee_id")
             ->get();
 
-        $workDays = $sumEmpWorkTime[0]->work_days;
-        $totalRevenueWorkTime = $sumEmpWorkTime[0]->total_revenue_work_time;
-        $totalRevenueOT = $sumEmpWorkTime[0]->total_revenue_ot;
-
         // get all items lists
         $allItemLists = DB::table("items")
             ->where("value_type", "=", "other")
@@ -102,15 +98,22 @@ class ReportController extends Controller
             }
         }
 
+        error_log("---------------->");
         $i = 2;
         foreach ($sumEmpWorkTime as $sumEmp)
         {
             $empId = $sumEmp->employee_id;
 
+            error_log(print_r($sumEmpWorkTime, true));
+            $workDays = $sumEmp->work_days;
+            $totalOT = $sumEmp->total_ot;
+            $totalRevenueWorkTime = $sumEmp->total_revenue_work_time;
+            $totalRevenueOT = $sumEmp->total_revenue_ot;
+
             $increaseTotal = DB::table("increase_lists")
                 ->selectRaw("employee_id, sum(item_value) as total_increase_value")
                 ->where("employee_id", $empId)
-                ->where("item_type", "=", "other")
+                /*->where("item_type", "=", "other")*/
                 ->whereYear("item_date", "=", $year)
                 ->whereMonth("item_date", "=", $month)
                 ->groupBy("employee_id")
@@ -125,7 +128,7 @@ class ReportController extends Controller
             $deductionTotal = DB::table("deduction_lists")
                 ->selectRaw("employee_id, sum(item_value) as total_deduction_value")
                 ->where("employee_id", $sumEmp->employee_id)
-                ->where("item_type", "=", "other")
+                /*->where("item_type", "=", "other")*/
                 ->whereYear("item_date", "=", $year)
                 ->whereMonth("item_date", "=", $month)
                 ->groupBy("employee_id")
@@ -147,16 +150,20 @@ class ReportController extends Controller
             $totalIncome = $totalIncrease - $totalDeduction;
 
             // Get emp info
-            $empInfo = DB::table("employees")
-                ->where("id", $empId)
-                ->get();
+            $empInfo = DB::table("employees")->where("id", "=", $empId);
+            error_log(" after ---------------> ");
+            if (!$empInfo->count()) continue;
+            $empInfo = $empInfo->get()[0];
 
-            $empInfo = $empInfo[0];
+            $empType = "ชั่วคราว";
+            if ($empInfo->type === "permanent") {
+                $empType = "ประจำ";
+            }
 
             // set document
             $sheet->setCellValue("A{$i}", $empInfo->code);
             $sheet->setCellValue("B{$i}", $empInfo->name_th);
-            $sheet->setCellValue("C{$i}", $empInfo->type);
+            $sheet->setCellValue("C{$i}", $empType);
             $sheet->setCellValue("D{$i}", $empInfo->enroll_no);
             $sheet->setCellValue("E{$i}", $empInfo->bank_name);
             $sheet->setCellValue("F{$i}", $empInfo->bank_account_number);

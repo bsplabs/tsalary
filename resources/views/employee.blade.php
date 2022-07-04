@@ -163,16 +163,16 @@
 
                         <hr>
 
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label>ประเภทรายการเพิ่ม</label>
                             <select class="form-control" id="item_type" name="item_type">
                                 <option value="revenue">เงินรายได้ต่อวัน</option>
                                 <option value="ot">โอที</option>
                                 <option value="other">ทั่วไป</option>
                             </select>
-                        </div>
+                        </div>--}}
 
-                        <div class="form-group d-none">
+                        <div class="form-group">
                             <label>ระบุรายการเพิ่ม</label>
                             <input type="text" id="item_name" class="form-control" name="item_name">
                         </div>
@@ -277,6 +277,7 @@
                 "columns": [
                     {
                         data: 'type',
+                        className: 'text-center',
                         render: function(dataField) {
                             if (dataField == "permanent") {
                                 return '<span class="badge badge-info">ประจำ</span>';
@@ -293,6 +294,7 @@
                     {data: 'tel'},
                     {
                         data: 'id',
+                        className: 'text-center',
                         render: function(dataField) {
                             return `
                                 <a  href="javascript:void(0);"
@@ -333,13 +335,13 @@
                 locale: 'th'
             });
 
-            $("#item_type").change(function() {
+            /*$("#item_type").change(function() {
                 if ($(this).val() === 'revenue' || $(this).val() === 'ot') {
                     $("#item_name").parent().addClass("d-none");
                 } else {
                     $("#item_name").parent().removeClass("d-none");
                 }
-            });
+            });*/
 
             // Add Emp
             $("#addNewEmpBtn").click(function (event) {
@@ -556,6 +558,7 @@
                     }
                 });
             });
+
         });
 
     </script>

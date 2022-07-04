@@ -50,6 +50,7 @@ Route::middleware(["auth"])->group(function() {
     Route::post("/items/all", [ItemController::class, "getItemLists"]);
     Route::post("/items/add", [ItemController::class, "addItem"]);
     Route::post("/items/edit", [ItemController::class, "editItem"]);
+    Route::post("/items/update-timetype", [ItemController::class, "updateTimeType"]);
     Route::post("/items/delete", [ItemController::class, "deleteItem"]);
     // Item Increase
     Route::get("/items/increase", [ItemController::class, "showIncreaseLists"])->name("increase");

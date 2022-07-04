@@ -57,23 +57,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label>เวลา/ความต่อเนื่อง</label>
+                            <label>กำหนดรูปแบบเวลา</label>
                             <select class="form-control" id="is_continue" name="is_continue" value="1">
-                                <option value="1">รายวัน (ต่อเนื่อง)</option>
-                                <option value="0">รายเดือน (ไม่ต่อเนื่อง)</option>
+                                <option value="1">ต่อเนื่อง</option>
+                                <option value="0">ไม่ต่อเนื่อง</option>
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label>ประเภทรายการเพิ่ม</label>
                             <select class="form-control" id="value_type" name="value_type">
                                 <option value="revenue">เงินรายได้ต่อวัน</option>
                                 <option value="ot">โอที</option>
                                 <option value="other">ทั่วไป</option>
                             </select>
-                        </div>
+                        </div>--}}
 
-                        <div class="form-group d-none">
+                        <div class="form-group">
                             <label>ระบุชื่อรายการ</label>
                             <input type="text" class="form-control" name="name">
                         </div>
@@ -176,6 +176,7 @@
                 "processing": true,
                 "serverSide": true,
                 "pageLength": 10,
+                "bSort": false,
                 "language": {
                     "search": "ค้นหา:"
                 },
@@ -187,6 +188,7 @@
                 columns: [
                     {
                         data: "type",
+                        className: 'text-center',
                         render: function (dataField) {
                             if (dataField === "increase") {
                                 return `<span class="badge badge-success">เพิ่ม</span>`;
@@ -207,75 +209,59 @@
                         data: "is_continued",
                         className: "text-center",
                         render: function (dataField, type, row, meta) {
-                            if (dataField == "1") {
-                                return `<span class="text-success"><i class="fas fa-redo"></i></span>`;
-                            } else if (dataField == "0") {
-                                return `<span><i class="fas fa-redo"></i></span>`;
+                            if (row.value_type === 'revenue' || row.value_type === 'ot') {
+                                return '';
+                            } else {
+                                if (dataField == "1") {
+                                    return `<span role="button" class="text-success" id="is-continue-btn"><i class="fas fa-redo"></i></span>`;
+                                } else if (dataField == "0") {
+                                    return `<span role="button" class="text-default" id="is-continue-btn"><i class="fas fa-redo"></i></span>`;
+                                }
                             }
                         }
                     },
                     {
                         data: "id",
-                        render: function (dataField) {
-                            return `
-                                <a  href="javascript:void(0);"
-                                    class="btn btn-sm btn-warning edit-item-btn"
-                                    data-item-id="${dataField}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a  href="javascript:void(0);"
-                                    class="btn btn-sm btn-danger del-item-btn"
-                                    data-item-id="${dataField}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            `;
+                        className: 'text-center',
+                        render: function (dataField, data, row) {
+                            if (row.value_type === 'revenue') {
+                                return `
+                                    <a  href="javascript:void(0);"
+                                        class="btn btn-sm btn-warning edit-item-btn"
+                                        data-item-id="${dataField}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                `;
+                            } else if (row.value_type === 'ot') {
+                                return `
+                                    <a  href="javascript:void(0);"
+                                        class="btn btn-sm btn-warning edit-item-btn"
+                                        data-item-id="${dataField}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                `;
+                            } else {
+                                return `
+                                    <a  href="javascript:void(0);"
+                                        class="btn btn-sm btn-warning edit-item-btn"
+                                        data-item-id="${dataField}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a  href="javascript:void(0);"
+                                        class="btn btn-sm btn-danger del-item-btn"
+                                        data-item-id="${dataField}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                `;
+                            }
                         }
                     }
-                ]
-            });
-
-            $("#modal-add-items #type").change(function () {
-                let val = $(this).val();
-                if (val == "increase") {
-                    if ($("#is_continue").val() == "1") {
-                        $("#value_type").parent().removeClass("d-none");
-                        $("#value_type").val("revenue");
-                        $("#modal-add-items input[name='name']").parent().addClass("d-none");
-                    } else {
-                        $("#value_type").parent().addClass("d-none");
-                        $("#value_type").val("other");
-                        $("#modal-add-items input[name='name']").parent().removeClass("d-none");
+                ],
+                createdRow: function(row, data) {
+                    if (data.value_type === 'revenue' || data.value_type === 'ot') {
+                        $(row).addClass('bg-secondary')
                     }
-                } else {
-                    $("#value_type").parent().addClass("d-none");
-                    $("#value_type").val("other");
-                    $("#modal-add-items input[name='name']").parent().removeClass("d-none");
-                }
-            });
 
-            $("#modal-add-items #is_continue").change(function () {
-                if ($(this).val() == "1") {
-                    if ($("#type").val() == "increase") {
-                        $("#value_type").parent().removeClass("d-none");
-                        $("#value_type").val("revenue");
-                        $("#modal-add-items input[name='name']").parent().addClass("d-none");
-                    } else {
-                        $("#value_type").parent().addClass("d-none");
-                        $("#value_type").val("other");
-                        $("#modal-add-items input[name='name']").parent().removeClass("d-none");
-                    }
-                } else {
-                    $("#value_type").parent().addClass("d-none");
-                    $("#value_type").val("other");
-                    $("#modal-add-items input[name='name']").parent().removeClass("d-none");
-                }
-            });
-
-            $("#modal-add-items #value_type").change(function () {
-                if ($(this).val() == "other") {
-                    $("#modal-add-items input[name='name']").parent().removeClass("d-none");
-                } else {
-                    $("#modal-add-items input[name='name']").parent().addClass("d-none");
                 }
             });
 
@@ -411,7 +397,42 @@
                         console.log(err);
                     }
                 });
-            })
+            });
+
+            $(document).on('click', '#item-table #is-continue-btn', function(e) {
+                e.preventDefault();
+
+                let itemData = itemTable.row($(this).parent().parent()).data();
+
+                let data = {
+                    id: itemData.id,
+                    isContinued: itemData.is_continued
+                }
+
+                $.ajax({
+                    url: "/items/update-timetype",
+                    type: "POST",
+                    data : data,
+                    success: function(res) {
+                        console.log(res)
+                        if (res.error == 0) {
+                            itemTable.ajax.reload(null, false);
+                            $("#modal-delete-items").modal("hide");
+                            toastr.success(res.message);
+                        } else {
+                            $.each(res.messages, function (key, val) {
+                                $(`[name="${key}"]`).addClass("is-invalid");
+                                toastr.error(val[0]);
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        toastr.success("Something went wrong");
+                        console.log(err);
+                    }
+                });
+            });
+
         });
     </script>
 @endpush

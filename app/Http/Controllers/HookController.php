@@ -63,39 +63,25 @@ class HookController extends Controller
             }
 
             // Get increase revenue
-            $incData = DB::table("increase_lists")
-                ->whereIn("item_type", ["revenue", "ot"])
-                ->where("item_date", "=", $workingDate)
-                ->where("employee_id", "=", $empId)
-                ->get();
+            $revenue = 0;
+            $ot = 0;
 
             $itemData = DB::table("items")
                 ->whereIn("value_type", ["revenue", "ot"])
                 ->get();
 
-            $revenue = null;
-            $ot = null;
-            foreach ($incData as $inc)
-            {
-                if ($inc->item_type === "revenue") $revenue = $inc->item_value;
-                if ($inc->item_type === "ot") $ot = $inc->item_value;
-            }
-
             if (!empty($itemData) && $itemData->count() > 0) {
                 foreach ($itemData as $item)
                 {
-                    if ($item->value_type == "revenue" && $revenue == null) {
+                    if ($item->value_type == "revenue") {
                         $revenue = $item->value;
                     }
 
-                    if ($item->value_type == "ot" && $ot == null) {
+                    if ($item->value_type == "ot") {
                         $ot = $item->value;
                     }
                 }
             }
-
-            if ($ot == null) $ot = 0;
-            if ($revenue == null) $revenue = 0;
 
             // Store working time
             $checkEmpWorkId = DB::table("working_details")
@@ -119,7 +105,6 @@ class HookController extends Controller
             }
 
             // Income table
-
         }
 
         return response()->json([

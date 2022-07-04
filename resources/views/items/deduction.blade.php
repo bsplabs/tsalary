@@ -22,12 +22,12 @@
             <div class="card-body">
                 <table id="deduction-table" class="table table-bordered">
                     <thead>
-                    <th>รหัสพนักงาน</th>
-                    <th>ชื่อ</th>
-                    <th>รายการ</th>
-                    <th>จำนวน</th>
-                    <th>วันที่</th>
-                    <th>จัดการ</th>
+                        <th>รหัสพนักงาน</th>
+                        <th>ชื่อ</th>
+                        <th>รายการ</th>
+                        <th>จำนวน</th>
+                        <th>วันที่</th>
+                        <th>จัดการ</th>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -56,15 +56,6 @@
                             name="employee_id" style="width:100%;">
                         </select>
                     </div>
-
-                    {{--<div class="form-group">
-                        <label>ประเภทรายการหัก</label>
-                        <select class="form-control" id="item_type" name="item_type">
-                            <option value="revenue">เงินรายได้ต่อวัน</option>
-                            <option value="ot">โอที</option>
-                            <option value="other">ทั่วไป</option>
-                        </select>
-                    </div>--}}
 
                     <div class="form-group">
                         <label>ระบุรายการเพิ่ม</label>
@@ -194,6 +185,7 @@
                     },
                     {
                         data: "id",
+                        className: 'text-center',
                         render: function (dataField) {
                             return `
                                 <a  href="javascript:void(0);"
